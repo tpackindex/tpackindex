@@ -1,6 +1,21 @@
 # Index-lite
 A crude simulator used to illustrate the performance of TPacks based system with ski-rental merging policy  
 
+**Why is it 'lite' and it what ways is it 'crude'?**  
+We need to emulate making billions of updates to millions of terms and processing millions of queries.  
+Faithfully representing the state of the system w.r.t every term would make it an order of magnitude slower, even two.  
+Indeed, we have a more precise model that feeds on 120GB of inputs and runs for a couple of hours. 
+
+Hoewever, since we know that the terms are following an inherently skewed distribution, we apply the following tricks:
++ instead of handling millions of terms we handle merely dozens of term-packs. 
++ we make the relaxing assumption that every term in the pack behaves just like the other terms.  
+I.e., for a pack with 850 terms that gets one million updates and half 3,000 queries per time slice we assume that those are distributed uniformly and each term gets 1,000,000 / 850 updates and 3,000 / 850 queries.  
++ It works surprisingly well, since we assign the terms into packs such that they are comparable w.r.t. update and query frequency.  
++ In practice, this results in a few groups with a handful of hevy hitters and many groups with literally millions of singletons.
++ The same principle is applied to mamanging term cache -- we just emulate having millions of queries hitting the cache by doing weighted round-robin on the term-packs, thus making sure that the frequent terms hit the cache more often than the infrequent. 
++ Obviously, when the simulator has to read two segments from disk and write their union as new segment we are only recording this operation, rather than actually transferring bits on a hard-drive. 
+
+**Build**  
 Build with standard cmake:
 ```bash
 cmake . && make

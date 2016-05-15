@@ -12,7 +12,7 @@ For larger values (e.g., >1000) may take a minute or two.
 
 There is really no point to run with more queries than it takes to make ALW better than log. 
 
-*Report breakdown*
+**Report breakdown**
 ```
 SkiBsdMerge HD 96--90 Evictions:   219 Total-seen-postings: 62184295597 Total-queries: 1024000 Query-reads: r-posts: 9605502953447 r-seeks: 12440492 Consolidation: r-posts: 387037484488 r-seeks: 25024 w-posts: 449221780085 w-seeks: 12804 Total-query-minutes: 5522.74 Total-merge-minutes: 358.867 Sum-All: 5881.61
 ```
